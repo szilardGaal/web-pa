@@ -2,6 +2,8 @@ body {
     background: #F8F8FF;
     color:  #212f3d;
     font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+    overflow: hidden;
 }
 
 #logo-container {
@@ -47,6 +49,26 @@ body {
     border: none;
     color: inherit;
     font-weight: 400;
+}
+
+#search-field {
+    margin: 4% 0;
+}
+
+#search-field input {
+    width: 70%;
+    background: none;
+    border: none;
+    border-bottom: solid 0.5px #AAAAAA;
+    color: #212f3d;
+}
+
+#submit-order {
+    float: right;
+    margin: 2% 0 2% 40%;
+    background: darkgreen;
+    border: solid 5px darkgreen;
+    border-radius: 4px;
 }
 
 .minimal-button:hover {
@@ -95,16 +117,23 @@ label a:hover {
 
 #left-bar {
     width: 16%;
-    height: 590px;
+    height: 86%;
     float: left;
     border-right: 0.5px solid #AAAAAA;
     padding-left: 2%;
     padding-right: 2%;
+    overflow-y: scroll;
+}
+
+#left-bar p {
+    border-top: solid 0.5px #AAAAAA;
+    margin-top: 10%;
+    padding-top: 10%;
 }
 
 #shop-content {
     width: 76.9%;
-    height: 590px;
+    height: 86%;
     float: left;
     overflow-y: scroll;
     margin-left: 0.5%;
@@ -187,6 +216,46 @@ label a:hover {
 .dropdown:hover button {
     background-color: #F1F1F1;
     border: solid 2px #F1F1F1;
+}
+
+#order-table {
+    padding: 4%;
+    width: 100%;
+}
+
+#order-table th, #cart-table th {
+    border-bottom: solid 0.5px #AAAAAA;
+}
+
+#order-table td {
+    text-align: right;
+    border-bottom: solid 0.5px #AAAAAA;
+    padding-top: 5px;
+}
+
+#cart-table td:last-child, #cart-table th:last-child,
+#order-table td:last-child, #order-table th:last-child {
+    border: none;
+}
+
+#cart-table {
+    width: 100%;
+    background: #F1F1F1;
+    font-size: 12px;
+    text-align: right;
+    border-bottom: solid 0.5px #AAAAAA;
+}
+
+#cart-table td:first-child {
+    text-align: left;
+}
+
+#cart-table th {
+    text-align: left;
+}
+
+#cart-table td:last-child {
+    color: red;
 }
 
 .filter-hidden {

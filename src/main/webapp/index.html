@@ -58,7 +58,24 @@
                 <button id="my-orders" class="minimal-button">my orders</button>
                 <div class="dropdown-content">
                     <table id="order-table">
-                        
+                        <tr>
+                            <th>#</th>
+                            <th>date</th>
+                            <th>total ($)</th>
+                            <th></th>
+                        </tr>
+                        <tr id="orderId">
+                            <td>1</td>
+                            <td>2019-03-19</td>
+                            <td>350</td>
+                            <td><button class="minimal-button">view</button></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>2019-05-20</td>
+                            <td>1500</td>
+                            <td><button class="minimal-button">view</button></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -85,11 +102,14 @@
             <button id="cancel-register" class="minimal-button">cancel</button>
             <button id="submit-register-button" class="minimal-button">register</button>
         </form>
-        
     </div>
 </div>
 <div id="left-bar">
-    <p><strong>Categories</strong><button id="turn-on-filter-button" class="minimal-button">filter</button></p>
+    <form id="search-field">
+        <input type="text" placeholder="search by name">
+        <button id="search-button" class="minimal-button">search</button> 
+    </form>
+    <p><strong>categories</strong><button id="turn-on-filter-button" class="minimal-button">filter</button></p>
     <form id="filter-products">
         <div id="filter-options" class="filter-hidden">
             <label><input type="checkbox" id="filter-include"><span class="filter-hidden"></span> include <br></label>
@@ -110,6 +130,33 @@
         <br>
         <button id="filter-submit-button" class="filter-hidden">filter</button>
     </form>
+    <p><strong>cart</strong></p>
+        <table id="cart-table">
+            <tr>
+                <th>product</th>
+                <th>pc</th>
+                <th>$/pc</th>
+                <th>total</th>
+                <th></th>
+            </tr>
+            <tr id="orderId">
+                <td>Fender Stratocaster</td>
+                <td>3</td>
+                <td>700</td>
+                <td>2100</td>
+                <td><button class="minimal-button">X</button></td>
+            </tr>
+            <tr id="orderId">
+                <td>Gibson SG</td>
+                <td>1</td>
+                <td>850</td>
+                <td>850</td>
+                <td><button class="minimal-button">X</button></td>
+            </tr>
+        </table>
+        
+        <button id="submit-order">submit order</button><br>
+        <button id="cancel-order" class="minimal-button">cancel</button>
 </div>
 <div id="shop-content">
     <p>Selected category</p>
@@ -122,8 +169,8 @@
         <div class="add-to-cart">
             <form id="buy-item-form">
                 <select>
-                    <option>1</option><br>
-                    <option>2</option><br>
+                    <option>1</option>
+                    <option>2</option>
                     <option>3</option>
                 </select>
                 <button>add to cart</button> <!-- data-product-id -->
