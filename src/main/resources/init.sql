@@ -1,71 +1,156 @@
-/*
-    Database initialization script that runs on every web-application redeployment.
-*/
-DROP TABLE IF EXISTS coupons_shops;
-DROP TABLE IF EXISTS coupons;
-DROP TABLE IF EXISTS shops;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_rows CASCADE;
+DROP TABLE IF EXISTS types CASCADE;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
+    userName VARCHAR(20) NOT NULL,
+		CONSTRAINT user_name_not_empty CHECK (userName <> ''),
     email TEXT UNIQUE NOT NULL,
+		CONSTRAINT email_not_empty CHECK (email <> ''),
     password TEXT NOT NULL,
-	CONSTRAINT email_not_empty CHECK (email <> ''),
-	CONSTRAINT password_not_empty CHECK (password <> '')
+		CONSTRAINT password_not_empty CHECK (password <> ''),
+    isAdmin boolean DEFAULT FALSE,
+	priceModifier FLOAT DEFAULT 1,
+		CONSTRAINT price_modifier_is_in_range CHECK (priceModifier >= 0.5 AND priceModifier <= 1)
 );
 
-CREATE TABLE shops (
+CREATE TABLE types (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    	CONSTRAINT name_not_empty CHECK (name <> '')
+);
+
+CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-	CONSTRAINT name_not_empty CHECK (name <> '')
+		CONSTRAINT name_not_empty CHECK (name <> ''),
+	manufacturer VARCHAR(30) NOT NULL,
+		CONSTRAINT manufacturer_not_empty CHECK (manufacturer <> ''),
+	type INTEGER NOT NULL,
+		CONSTRAINT type_not_empty CHECK (type <> null),
+	FOREIGN KEY (type) REFERENCES types(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	price INTEGER NOT NULL,
+		CONSTRAINT price_not_empty CHECK (price <> null),
+	stock INTEGER NOT NULL DEFAULT 0,
+		CONSTRAINT stock_not_empty CHECK (stock <> null),
+	stockPrice INTEGER NOT NULL,
+		CONSTRAINT stockPrice_not_empty CHECK (stockPrice <> null),
+	discount FLOAT DEFAULT 0,
+		CONSTRAINT discount_is_in_range CHECK (discount >= 0 AND discount <= 0.5),
+		CONSTRAINT price_must_be_higher_than_stock_price CHECK (price - (price * discount) > stockPrice),
+	picture TEXT
 );
 
-CREATE TABLE coupons (
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    percentage INTEGER NOT NULL,
-    CONSTRAINT name_not_empty CHECK (name <> ''),
-	CONSTRAINT percentage_between_bounds CHECK (percentage >= 0 AND percentage <= 100)
+    userId INTEGER,
+    	FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    total INTEGER DEFAULT 0,
+	dateOfCreation DATE DEFAULT current_timestamp
 );
 
-CREATE TABLE coupons_shops (
-    coupon_id INTEGER,
-    shop_id INTEGER,
-    PRIMARY KEY (coupon_id, shop_id),
-    FOREIGN KEY (coupon_id) REFERENCES coupons(id),
-    FOREIGN KEY (shop_id) REFERENCES shops(id)
+CREATE TABLE order_rows (
+	orderId INTEGER,
+		FOREIGN KEY (orderID) REFERENCES orders(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	productId INTEGER,
+		FOREIGN KEY (productID) REFERENCES products(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	quantity INTEGER NOT NULL DEFAULT 1,
+		CONSTRAINT quantity_not_null_and_not_negative CHECK (quantity <> null AND quantity >= 1)
 );
 
-INSERT INTO users (email, password) VALUES
-	('user1@user1', 'user1'), -- 1
-	('user2@user2', 'user2'), -- 2
-	('user2@user3', 'user3'); -- 3
+CREATE OR REPLACE FUNCTION count_total_value() RETURNS TRIGGER AS '
+    DECLARE
+        total_price int;
+		product_price int;
+		price_multiplier float;
+    BEGIN
+		SELECT total INTO total_price FROM orders WHERE orders.id = NEW.orderId;
+		SELECT price INTO product_price FROM products WHERE NEW.productId = products.id;
+		SELECT priceModifier INTO price_multiplier FROM users
+		LEFT JOIN orders ON users.id = orders.userId WHERE NEW.orderId = orders.id;
+        UPDATE orders SET total = total_price + (product_price * NEW.quantity * price_multiplier) WHERE NEW.orderId = orders.id;
+        RETURN NEW;
+    END; '
+    LANGUAGE plpgsql;
 
-INSERT INTO shops (name) VALUES
-	('SPAR'),   -- 1
-	('Tesco'),  -- 2
-	('Auchan'), -- 3
-	('LIDL'),   -- 4
-	('ALDI');   -- 5
+CREATE OR REPLACE FUNCTION set_discount_value() RETURNS TRIGGER AS '
+	DECLARE
+		last_date date;
+		current_user int;
+		multiplier float;
+	BEGIN
+		SELECT MAX(dateOfCreation) INTO last_date FROM orders WHERE orders.userId = NEW.userId;
+		SELECT id INTO current_user FROM users WHERE id = NEW.userId;
+		SELECT priceModifier INTO multiplier FROM users WHERE id = NEW.userId;
+		IF last_date + (2 ||'' minutes'')::interval <= current_timestamp AND multiplier >= 0.5 
+			THEN 
+				UPDATE users SET pricemodifier = multiplier - 0.1 WHERE id = NEW.userId;
+		END IF;
+	END; '
+	LANGUAGE plpgsql;
 
-INSERT INTO coupons (name, percentage) VALUES
-	('Sausage discount', 10),           -- 1
-	('Bread super-sale', 50),           -- 2
-	('Bread super-sale', 40),           -- 3
-	('20% off from EVERYTHING!', 20),   -- 4
-	('1 product for FREE!', 100);       -- 5
+CREATE TRIGGER count_total
+    AFTER INSERT
+    ON order_rows
+    FOR EACH ROW
+EXECUTE PROCEDURE count_total_value();
 
-INSERT INTO coupons_shops (coupon_id, shop_id) VALUES
-    (1, 1), -- 1
-    (1, 2),
-    (1, 3),
-    (2, 1), -- 2
-    (2, 2),
-    (2, 3),
-    (2, 5),
-    (3, 1), -- 3
-    (3, 2),
-    (3, 5),
-    (4, 3), -- 4
-    (5, 2), -- 5
-    (5, 5);
+CREATE TRIGGER set_discount
+	BEFORE INSERT
+	ON orders
+	FOR EACH ROW
+EXECUTE PROCEDURE set_discount_value();
+
+INSERT INTO users(userName, email, password) VALUES ('test', 'test@test.com', '1000:7cf3de71fad3e947c667e7a44764cd8b:94659ae984bb90e8179245a5e9cd92a2b3625572d53ae8d9e98127e152ab26892e6b5921cf87248c6f7e775c6279b5578c7b6e197d2f9e17fe28bab722b5a9a3');
+INSERT INTO users(userName, email, password) VALUES ('test2', 'test2@test.com', '1000:73e81d9c6e4ec625975f0cf24a5155c4:84a75cd7084cc1deb644626030f541036e0e992bd2a7c6eb513c20c7f1fa3669b1e23ae426ada699bc7a9d1a6ee5f505c9b09940b0a693209c1c59d64d615339');
+INSERT INTO users(userName, email, password, isAdmin) VALUES ('admin', 'admin1@test.com', '1000:ef57da2a955e1c60a25e256a2eba5c9f:8a63c1cfdc980394b167952d24389d579a4420071c903a42b12133b9b3a19d6d27eaa74d26292625fc8017b20892e1595e9d10426067818d3b1a0d3a59146791', true);
+
+INSERT INTO types (name) VALUES
+	('electric guitar'),
+	('acoustic guitar'),
+	('electric bass'),
+	('acoustic bass'),
+	('valve amplifier'),
+	('transistor amplifier'),
+	('hybrid amplifier'),
+	('string set'),
+	('cable');
+	
+INSERT INTO products (name, manufacturer, type, stock, stockPrice, price) VALUES
+	('Stratocaster', 'Fender', 1, 3, 350, 700), --fenderstrat.jpg
+	('Telecaster', 'Fender', 1, 2, 300, 650),
+	('Les Paul', 'Gibson', 1, 2, 550, 990),
+	('SG', 'Gibson', 1, 3, 450, 800),
+	('GF30CE', 'Takamine', 2, 2, 350, 550),
+	('GX15CE', 'Takamine', 2, 5, 200, 450),
+	('SFX1', 'Cort', 2, 3, 180, 360),
+	('Earth-1', 'Cort', 2, 7, 140, 250),
+	('P-bass', 'Fender', 3, 2, 350, 700),
+	('Jazzbass', 'Fender', 3, 1, 500, 1000),
+	('AVCB9CE', 'Ibanez', 4, 2, 250, 500),
+	('Kingman Bass', 'Fender', 4, 1, 400, 750),
+	('AC30', 'VOX', 5, 1, 600, 1100),
+	('Origin 20C', 'Marshall', 5, 2, 450, 900),
+	('RockerVerb 30', 'Orange', 5, 1, 550, 1000),
+	('Blues JR', 'Fender', 5, 3, 350, 600),
+	('MK-V', 'MesaBoogie', 5, 1, 1000, 2000),
+	('ID-40', 'BlackStar', 6, 3, 150, 300),
+	('Champion40', 'Fender', 6, 2, 200, 400),
+	('Jazz Chorus 60', 'Roland', 6, 1, 700, 1400),
+	('TR-5', 'Yamaha', 6, 3, 170, 350),
+	('AC15VR', 'VOX', 7, 2, 250, 400),
+	('AVT100', 'Marshall', 7, 2, 300, 600),
+	('0.09 - light', 'Ernie-Ball', 8, 20, 5, 10),
+	('0.10 - regular', 'Ernie-Ball',  8, 15, 5, 10),
+	('0.11 - heavy', 'Ernie-Ball', 	8, 10, 5, 10),
+	('0.09 - Durable', 'Elixir', 8, 10, 15, 30),
+	('0.10 - EQ', 'Cleartone', 8 , 5, 15, 30),
+	('5m regular', 'Klotz', 9, 40, 6, 10),
+	('15m regular', 'Klotz', 9, 20, 20, 30),
+	('30m regular', 'Klotz', 9, 10, 35, 50),
+	('5m shielded', 'Klotz', 9, 30, 14, 20),
+	('15m shielded', 'Klotz', 9, 20, 30, 40),
+	('30m shielded', 'Kloztz', 9, 10, 55, 75);

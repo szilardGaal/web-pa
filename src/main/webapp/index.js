@@ -118,4 +118,4 @@ function onLoad() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', onLoad);
+//document.addEventListener('DOMContentLoaded', onLoad);

@@ -1,11 +1,206 @@
-.error {
-    color: red;
+body {
+    background: #F8F8FF;
+    color:  #212f3d;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.info {
-    color: blue;
+#logo-container {
+    height: 79px;
+    width: 20%;
+    float: left;
 }
 
-.hidden {
+#logo-container img {
+    height: 79px;
+    width: auto;
+}
+
+#profile-content {
+    height: 79px;
+    width: auto;
+    float: right;
+}
+
+#profile-content p {
+    margin: 0;
+    margin-bottom: 6px;
+    padding: 6px 0 7px 0;
+    text-align: center;
+    border-bottom: solid 0.5px #AAAAAA;
+}
+
+#login-form input, #register-form input, #update-data-form input {
+    background: none;
+    border: none;
+    border-bottom: solid 0.5px #AAAAAA;
+    color: inherit;
+}
+
+#update-data-form input {
+    margin: 4%;
+}
+
+.minimal-button {
+    float: right;
+    background: none;
+    padding: none;
+    border: none;
+    color: inherit;
+    font-weight: 400;
+}
+
+.minimal-button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+label input {
+    display: none; 
+}
+  
+label span {
+    height: 10px;
+    width: 10px;
+    border: 1px solid grey;
+    display: inline-block;
+    position: relative;
+}
+
+label a {
+    position: relative;
+    transition: padding 0.5s;
+}
+
+label a:hover {
+    padding-left: 5px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+  
+[type=checkbox]:checked + span:before {
+    content: '\2714';
+    position: absolute;
+    top: -5px;
+    left: 0;
+}
+
+#top-bar {
+    width: 100%;
+    height: 70px;
+    float: left;
+    margin-bottom: 0.5%;
+    border-bottom: 0.5px solid #AAAAAA;
+    vertical-align: center;
+}
+
+#left-bar {
+    width: 16%;
+    height: 590px;
+    float: left;
+    border-right: 0.5px solid #AAAAAA;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+#shop-content {
+    width: 76.9%;
+    height: 590px;
+    float: left;
+    overflow-y: scroll;
+    margin-left: 0.5%;
+    padding-left: 2.5%;
+}
+
+.item-container {
+    width: 24%;
+    height: 280px;
+    margin-left: 3%;
+    margin-top: 3%;
+    padding: 2%;
+    padding-top: 0.3%;
+    border: 0.5px solid #AAAAAA;
+    float: left;
+}
+
+.item-price-container {
+    width: 30%;
+    float: left;
+}
+
+.item-name p {
+    margin: 0;
+    border-bottom: 0.5px solid #AAAAAA;
+}
+
+.item-price-container p {
+    margin: 0;
+    margin-top: 5px;
+}
+
+.add_to_cart {
+    width: 60%;
+    float: left;
+}
+
+.add-to-cart button {
+    border: solid 5px darkgreen;
+    border-radius: 4px;
+    background: darkgreen;
+}
+
+.item-image-container {
+    width:100%;
+    float: left;
+}
+
+.item-image-container img {
+    height: auto;
+    width: 100%;
+}
+
+.item-data-container {
+    float: right;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 270px;
+    min-height: 220px;
+    max-height: 400px;
+    overflow-y: scroll;
+    z-index: 1;
+}
+  
+.dropdown:hover .dropdown-content {
+    display: block;
+    top: 20px;
+    right: 0px;
+}
+
+.dropdown:hover button {
+    background-color: #F1F1F1;
+    border: solid 2px #F1F1F1;
+}
+
+.filter-hidden {
+    display: none;
+}
+
+.profile-hidden {
+    display: none;
+}
+
+.login-hidden {
+    display: none;
+}
+
+.register-hidden {
     display: none;
 }
