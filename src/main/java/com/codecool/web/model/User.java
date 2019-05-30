@@ -1,16 +1,21 @@
 package com.codecool.web.model;
 
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 public final class User extends AbstractModel {
 
     private final String userName;
+    private final String email;
     private final String password;
     private final boolean isAdmin;
+    private List<Order> orders = new ArrayList<>();
 
-    public User(int id, String userName, String password, boolean isAdmin) {
+    public User(int id, String userName, String email, String password, boolean isAdmin) {
         super(id);
         this.userName = userName;
+        this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
     }
@@ -19,12 +24,30 @@ public final class User extends AbstractModel {
         return userName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public boolean isAdmin() {
         return isAdmin;
+    }
+
+    public List<Order> getOrders() {
+        List<Order> copy = new ArrayList<>();
+        copy.addAll(orders);
+        return copy;
+    }
+
+    public void addToOrders(Order newOrder) {
+        orders.add(newOrder);
+    }
+
+    public void removeFromOrders(Order orderToRemove) {
+        orders.remove(orderToRemove);
     }
 
     @Override

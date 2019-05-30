@@ -26,20 +26,17 @@ public final class RegisterServlet extends AbstractServlet {
             PasswordHashService pwh = new PasswordHashService();
 
             String userName = req.getParameter("username");
+            String email = req.getParameter("email");
             String password;
-            String role = req.getParameter("role");
             boolean isAdmin = false;
-
-            if (role.equalsIgnoreCase("Admin")) {
-                isAdmin = true;
-            }
 
             try {
                 password = pwh.getHashedPassword(req.getParameter("password"));
 
                 us.registerUser(userName, password, isAdmin);
-                User user = userDao.findByUserName(userName);
+                User user = userDao.findByEmail(userName);
                 req.getSession().setAttribute("user", user);
+
                 sendMessage(resp, HttpServletResponse.SC_OK, user);
 
             } catch (NoSuchAlgorithmException ex) {

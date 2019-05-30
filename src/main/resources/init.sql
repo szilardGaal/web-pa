@@ -89,6 +89,7 @@ CREATE OR REPLACE FUNCTION set_discount_value() RETURNS TRIGGER AS '
 			THEN 
 				UPDATE users SET pricemodifier = multiplier - 0.1 WHERE id = NEW.userId;
 		END IF;
+	RETURN NEW;
 	END; '
 	LANGUAGE plpgsql;
 
@@ -154,3 +155,14 @@ INSERT INTO products (name, manufacturer, type, stock, stockPrice, price) VALUES
 	('5m shielded', 'Klotz', 9, 30, 14, 20),
 	('15m shielded', 'Klotz', 9, 20, 30, 40),
 	('30m shielded', 'Kloztz', 9, 10, 55, 75);
+
+INSERT INTO orders (userId) VALUES
+	(1),
+	(1);
+
+INSERT INTO order_rows (orderId, productId, quantity) VALUES
+	(1, 2, 3),
+	(1, 9, 2),
+	(1, 13, 3),
+	(2, 3, 1),
+	(2, 7, 2);

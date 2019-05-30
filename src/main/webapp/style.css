@@ -17,6 +17,16 @@ body {
     width: auto;
 }
 
+#validate-status {
+    height: 40px;
+    width: 250px;
+    z-index: 1;
+    position: absolute;
+    left: 68%;
+    top: 0%;
+    padding: 1%;
+}
+
 #profile-content {
     height: 79px;
     width: auto;

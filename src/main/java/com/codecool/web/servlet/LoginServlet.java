@@ -27,12 +27,16 @@ public final class LoginServlet extends AbstractServlet {
             LoginService loginService = new SimpleLoginService(userDao);
             PasswordHashService pwh = new PasswordHashService();
 
-            String userName = req.getParameter("username");
+            String email = req.getParameter("email");
             String password = req.getParameter("password");
-            String hashPassword = userDao.findByUserName(userName).getPassword();
+            String hashPassword = userDao.findByEmail(email).getPassword();
             try {
                 if (pwh.validatePassword(password, hashPassword)) {
-                    loginService.loginUser(userName);
+                    User user = loginService.loginUser(email);
+                    req.getSession().setAttribute("user", user);
+
+                    sendMessage(resp, HttpServletResponse.SC_OK, user);
+
                 } else {
                     throw new ServiceException("Bad login");
                 }
@@ -42,10 +46,6 @@ public final class LoginServlet extends AbstractServlet {
                 ex.getMessage();
             }
 
-            User user = loginService.loginUser(userName);
-            req.getSession().setAttribute("user", user);
-
-            sendMessage(resp, HttpServletResponse.SC_OK, user);
         } catch (ServiceException ex) {
             sendMessage(resp, HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
         } catch (SQLException ex) {

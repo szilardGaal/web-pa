@@ -4,14 +4,13 @@ const UNAUTHORIZED = 401;
 const NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
 
-let loginContentDivEl;
-let profileContentDivEl;
-let couponContentDivEl;
-let couponsContentDivEl;
+let user;
+
+let notLoggedInContentEl;
+let loggedInContentEl;
+let leftBarDivEl;
+let cartTableEl;
 let shopContentDivEl;
-let shopsContentDivEl;
-let backToProfileContentDivEl;
-let logoutContentDivEl;
 
 function newInfo(targetEl, message) {
     newMessage(targetEl, 'info', message);
@@ -52,6 +51,14 @@ function showContents(ids) {
     }
 }
 
+function showContent(content) {
+    content.style.display = 'block';
+}
+
+function hideContent(content) {
+    content.style.display = 'none';
+}
+
 function removeAllChildren(el) {
     while (el.firstChild) {
         el.removeChild(el.firstChild);
@@ -81,41 +88,27 @@ function onOtherResponse(targetEl, xhr) {
     }
 }
 
-function hasAuthorization() {
-    return localStorage.getItem('user') !== null;
-}
-
-function setAuthorization(user) {
-    return localStorage.setItem('user', JSON.stringify(user));
-}
-
-function getAuthorization() {
-    return JSON.parse(localStorage.getItem('user'));
-}
-
-function setUnauthorized() {
-    return localStorage.removeItem('user');
-}
-
 function onLoad() {
-    loginContentDivEl = document.getElementById('login-content');
-    profileContentDivEl = document.getElementById('profile-content');
-    couponContentDivEl = document.getElementById('coupon-content');
-    couponsContentDivEl = document.getElementById('coupons-content');
+    notLoggedInContentEl = document.getElementById('not-logged-in-content');
+    leftBarDivEl = document.getElementById('left-bar');
+    loggedInContentEl = document.getElementById('logged-in-content');
+    cartTableEl = document.getElementById('cart-table');
     shopContentDivEl = document.getElementById('shop-content');
-    shopsContentDivEl = document.getElementById('shops-content');
-    backToProfileContentDivEl = document.getElementById('back-to-profile-content');
-    logoutContentDivEl = document.getElementById('logout-content');
 
     const loginButtonEl = document.getElementById('login-button');
+    const registerButtonEl = document.getElementById('register-button');
+    const searchButtonEl = document.getElementById('search-button');
+    const turnOnFilterButtonEl = document.getElementById('turn-on-filter-button');
+    const submitOrderButtonEl = document.getElementById('submit-order');
+    const cancelOrderButtonEl = document.getElementById('cancel-order');
+
     loginButtonEl.addEventListener('click', onLoginButtonClicked);
+    registerButtonEl.addEventListener('click', onRegisterButtonClicked);
+    /*searchButtonEl.addEventListener('click', onSearchButtonClicked);
+    turnOnFilterButtonEl.addEventListener('click', onTurnOnFilterButtonClicked);
+    submitOrderButtonEl.addEventListener('click', onSubmitOrderButtonClicked);
+    cancelOrderButtonEl.addEventListener('click', onCancelOrderButtonClicked);*/
 
-    const logoutButtonEl = document.getElementById('logout-button');
-    logoutButtonEl.addEventListener('click', onLogoutButtonClicked);
-
-    if (hasAuthorization()) {
-        onProfileLoad(getAuthorization());
-    }
 }
 
-//document.addEventListener('DOMContentLoaded', onLoad);
+document.addEventListener('DOMContentLoaded', onLoad);
