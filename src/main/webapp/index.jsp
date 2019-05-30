@@ -73,16 +73,16 @@
             </div>
         </div>
        
-        <form id="login-form" class="login-hidden">
+        <form id="login-form" class="login-hidden" onsubmit="return false;">
             <p><i>login</i></p>
             <input type="text" placeholder="e-mail" id="login-email" required>
             <input type="password" placeholder="password" id="login-password" required>
 
             <button id="cancel-login" class="minimal-button">cancel</button>
-            <button id="submit-login-button" type="submit" class="minimal-button">login</button>
+            <button id="submit-login-button" class="minimal-button">login</button>
         </form>
             
-        <form id="register-form" class="register-hidden">
+        <form id="register-form" class="register-hidden" onsubmit="return false;">
             <p><i>register</i></p>
             <div id="validate-status"></div>
             <input type="text" placeholder="name" id="register-name" required>
@@ -91,7 +91,7 @@
             <input type="password" placeholder="password again" id="confirm-password" onkeyup="validatePassword()" required>
 
             <button id="cancel-register" class="minimal-button">cancel</button>
-            <button id="submit-register-button" type="submit" class="minimal-button">register</button>
+            <button id="submit-register-button" class="minimal-button">register</button>
         </form>
     </div>
 </div>

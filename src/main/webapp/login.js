@@ -5,7 +5,7 @@ function createOrdersTable(orders, ordersTable) {
         let serialEl = document.createElement('td');
         serialEl.innerHTML = orders[i].id;
         let dateEl = document.createElement('td');
-        dateEl.innerHTML = orders[i].date;
+        dateEl.innerHTML = orders[i].date.toString().slice(0,10).replace(/-/g,"");
         let totalEl = document.createElement('td');
         totalEl.innerHTML = orders[i].total;
 
@@ -27,7 +27,7 @@ function createOrdersTable(orders, ordersTable) {
 function loadProfile(user) {
     const userNameFieldEl = document.getElementById('user-name-field');
     const italicEl = document.createElement('i');
-    italicEl.innerHTML = user.name;
+    italicEl.innerHTML = user.userName;
     userNameFieldEl.appendChild(italicEl);
 
     const updateDataFormEl = document.forms['update-data-form'];
@@ -36,10 +36,10 @@ function loadProfile(user) {
     const passwordFieldEl = updateDataFormEl.querySelector('input[id="change-password"');
     const passwordConfirmFieldEL = updateDataFormEl.querySelector('input[id="change-password-confirm"');
 
-    nameFieldEl.setAttribute('placeholder', user.name);
-    emailFieldEl.setAttribute('placeholder', user.emai);
+    nameFieldEl.setAttribute('placeholder', user.userName);
+    emailFieldEl.setAttribute('placeholder', user.email);
     passwordFieldEl.setAttribute('placeholder', 'password');
-    passwordConfirmFieldEL.send('placeholder', 'confirm password');
+    passwordConfirmFieldEL.setAttribute('placeholder', 'confirm password');
 
     const ordersTable = document.getElementById('order-table');
     if (user.orders.length == 0) {
@@ -64,8 +64,7 @@ function loginUser(user) {
 function onLoginResponse() {
     debugger;
     if (this.status === OK) {
-        //const user = JSON.parse(this.responseText);
-        user = '<%= Session["user"] %>';
+        user = JSON.parse(this.responseText);
         loginUser(user);
     } else {
         onOtherResponse(loginContentDivEl, this);
@@ -87,6 +86,7 @@ function onLoginForm() {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', onLoginResponse);
     xhr.addEventListener('error', onNetworkError);
+    debugger;
     xhr.open('POST', 'login');
     xhr.send(params); 
 }
