@@ -102,12 +102,19 @@ function onLoad() {
     const submitOrderButtonEl = document.getElementById('submit-order');
     const cancelOrderButtonEl = document.getElementById('cancel-order');
 
+   
+
     loginButtonEl.addEventListener('click', onLoginButtonClicked);
     registerButtonEl.addEventListener('click', onRegisterButtonClicked);
     /*searchButtonEl.addEventListener('click', onSearchButtonClicked);
     turnOnFilterButtonEl.addEventListener('click', onTurnOnFilterButtonClicked);
     submitOrderButtonEl.addEventListener('click', onSubmitOrderButtonClicked);
     cancelOrderButtonEl.addEventListener('click', onCancelOrderButtonClicked);*/
+    debugger;
+    user = JSON.parse(localStorage.getItem('user'));
+    if (user != null) {
+        loginUser(user);
+    }
 
 }
 

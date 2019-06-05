@@ -24,4 +24,9 @@ public final class SimpleLoginService implements LoginService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
+    @Override
+    public String findPasswordByEmail(String email) throws SQLException {
+        return userDao.findPasswordByEmail(email);
+    }
 }

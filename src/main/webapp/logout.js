@@ -1,14 +1,16 @@
 function onLogoutResponse() {
     if (this.status === OK) {
-        setUnauthorized();
+        localStorage.removeItem('user');
+        user = null;
         clearMessages();
-        showContents(['login-content'])
+        hideContent(loggedInContentEl);
+        showContent(notLoggedInContentEl);
     } else {
         onOtherResponse(logoutContentDivEl, this);
     }
 }
 
-function onLogoutButtonClicked(event) {
+function onLogoutButtonClicked() {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', onLogoutResponse);
     xhr.addEventListener('error', onNetworkError);

@@ -2,9 +2,9 @@ function sendRegisterData() {
     
     const registerFormEl = document.forms['register-form'];
 
-    const userNameInputEl = registerFormEl.querySelector('input[name="register-name"]');
-    const emailInputEl = registerFormEl.querySelector('select[name="register-email"]');
-    const passwordInputEl = registerFormEl.querySelector('input[name="register-password"]');
+    const userNameInputEl = registerFormEl.querySelector('input[id="register-name"]');
+    const emailInputEl = registerFormEl.querySelector('input[id="register-email"]');
+    const passwordInputEl = registerFormEl.querySelector('input[id="register-password"]');
 
 
     const username = userNameInputEl.value;
@@ -53,8 +53,6 @@ function onRegisterButtonClicked() {
     const registerFormEl = document.getElementById('register-form');
     hideContent(notLoggedInContentEl);
     showContent(registerFormEl);
-    const submintRegisterButton = document.getElementById('submit-register-button');
-    submintRegisterButton.addEventListener('click', onRegisterForm);
     const cancelRegisterButton = document.getElementById('cancel-register');
     cancelRegisterButton.addEventListener('click', () => {
         hideContent(registerFormEl);

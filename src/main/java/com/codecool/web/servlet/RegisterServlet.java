@@ -28,13 +28,12 @@ public final class RegisterServlet extends AbstractServlet {
             String userName = req.getParameter("username");
             String email = req.getParameter("email");
             String password;
-            boolean isAdmin = false;
 
             try {
                 password = pwh.getHashedPassword(req.getParameter("password"));
 
-                us.registerUser(userName, password, isAdmin);
-                User user = userDao.findByEmail(userName);
+                us.registerUser(userName, email, password);
+                User user = userDao.findByEmail(email);
                 req.getSession().setAttribute("user", user);
 
                 sendMessage(resp, HttpServletResponse.SC_OK, user);

@@ -25,6 +25,7 @@ function createOrdersTable(orders, ordersTable) {
 }
 
 function loadProfile(user) {
+
     const userNameFieldEl = document.getElementById('user-name-field');
     const italicEl = document.createElement('i');
     italicEl.innerHTML = user.userName;
@@ -50,24 +51,23 @@ function loadProfile(user) {
     } else {
         createOrdersTable(user.orders, ordersTable);
     }
-
 }
 
 function loginUser(user) {
-    debugger;
+    localStorage.setItem('user', JSON.stringify(user));
     hideContent(document.getElementById('login-form'));
     hideContent(document.getElementById('register-form'));
     loadProfile(user);
+    hideContent(notLoggedInContentEl);
     showContent(loggedInContentEl);
 }
 
 function onLoginResponse() {
-    debugger;
     if (this.status === OK) {
         user = JSON.parse(this.responseText);
         loginUser(user);
     } else {
-        onOtherResponse(loginContentDivEl, this);
+        onOtherResponse(notLoggedInContentEl, this);
     }
 }
 function onLoginForm() {
@@ -96,8 +96,6 @@ function onLoginButtonClicked() {
     hideContent(notLoggedInContentEl);
     showContent(loginFormEl);
 
-    const submitLoginButtonEl = document.getElementById('submit-login-button');
-    submitLoginButtonEl.addEventListener('click', onLoginForm);
     const cancelLoginButtonEl = document.getElementById('cancel-login');
     cancelLoginButtonEl.addEventListener('click', () => {
         hideContent(loginFormEl);

@@ -32,12 +32,26 @@ public final class DatabaseUserDao extends AbstractDao implements UserDao {
     }
 
     @Override
-    public void addUser(String userName, String email, boolean isAdmin) throws SQLException {
-        String sql = "INSERT INTO users(userName, password, isAdmin) VALUES (?, ?, ?)";
+    public String findPasswordByEmail(String email) throws SQLException {
+        String sql = "SELECT password FROM users WHERE email = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("password");
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void addUser(String userName, String email, String password) throws SQLException {
+        String sql = "INSERT INTO users(userName, email, password) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, userName);
             statement.setString(2, email);
-            statement.setBoolean(3, isAdmin);
+            statement.setString(3, password);
             executeInsert(statement);
         }
     }
@@ -46,9 +60,7 @@ public final class DatabaseUserDao extends AbstractDao implements UserDao {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("userName");
         String email = resultSet.getString("email");
-        String password = resultSet.getString("password");
-        boolean isAdmin = resultSet.getBoolean("isAdmin");
-        return new User(id, name, email, password, isAdmin);
+        return new User(id, name, email);
     }
 
     private void getUserOrders(User user) throws SQLException {

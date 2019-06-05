@@ -12,7 +12,7 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public void registerUser(String userName, String password, boolean isAdmin) throws SQLException {
-        userDao.addUser(userName, password, isAdmin);
+    public void registerUser(String userName, String email, String password) throws SQLException {
+        userDao.addUser(userName, email, password);
     }
 }

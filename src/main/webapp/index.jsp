@@ -9,22 +9,24 @@
         <c:url value="/index.js" var="indexScriptUrl"/>
         <c:url value="/login.js" var="loginScriptUrl"/>
         <c:url value="/register.js" var="registerScriptUrl"/>
+        <c:url value="/logout.js" var="logoutScriptUrl"/>
         <!--<c:url value="/shop.js" var="shopScriptUrl"/>
         <c:url value="/shops.js" var="shopsScriptUrl"/>
         <c:url value="/coupon.js" var="couponScriptUrl"/>
         <c:url value="/coupons.js" var="couponsScriptUrl"/>
         <c:url value="/back-to-profile.js" var="backToProfileScriptUrl"/>
-        <c:url value="/logout.js" var="logoutScriptUrl"/>-->
+        -->
         <link rel="stylesheet" type="text/css" href="${styleUrl}">
         <script src="${indexScriptUrl}"></script>
         <script src="${loginScriptUrl}"></script>
         <script src="${registerScriptUrl}"></script>
+        <script src="${logoutScriptUrl}"></script>
         <!--<script src="${shopScriptUrl}"></script>
         <script src="${shopsScriptUrl}"></script>
         <script src="${couponScriptUrl}"></script>
         <script src="${couponsScriptUrl}"></script>
         <script src="${backToProfileScriptUrl}"></script>
-        <script src="${logoutScriptUrl}"></script>-->
+        -->
         <title>App</title>
     </head>
 <body>
@@ -69,20 +71,20 @@
                 </div>
             </div>
             <div style="display: inline-block">
-                <button id="logout-button" class="minimal-button">logout</button>
+                <button id="logout-button" class="minimal-button" onclick="onLogoutButtonClicked()">logout</button>
             </div>
         </div>
        
-        <form id="login-form" class="login-hidden" onsubmit="return false;">
+        <form id="login-form" class="login-hidden" onsubmit="onLoginForm(); return false;">
             <p><i>login</i></p>
-            <input type="text" placeholder="e-mail" id="login-email" required>
+            <input type="email" placeholder="e-mail" id="login-email" required>
             <input type="password" placeholder="password" id="login-password" required>
 
-            <button id="cancel-login" class="minimal-button">cancel</button>
-            <button id="submit-login-button" class="minimal-button">login</button>
+            <button type="reset" id="cancel-login" class="minimal-button">cancel</button>
+            <button type="submit" id="submit-login-button" class="minimal-button">login</button>
         </form>
             
-        <form id="register-form" class="register-hidden" onsubmit="return false;">
+        <form id="register-form" class="register-hidden" onsubmit="onRegisterForm(); return false;">
             <p><i>register</i></p>
             <div id="validate-status"></div>
             <input type="text" placeholder="name" id="register-name" required>
@@ -90,8 +92,8 @@
             <input type="password" placeholder="password" id="register-password" onkeyup="validatePassword()" required>
             <input type="password" placeholder="password again" id="confirm-password" onkeyup="validatePassword()" required>
 
-            <button id="cancel-register" class="minimal-button">cancel</button>
-            <button id="submit-register-button" class="minimal-button">register</button>
+            <button type="reset" id="cancel-register" class="minimal-button">cancel</button>
+            <button type="submit" id="submit-register-button" class="minimal-button">register</button>
         </form>
     </div>
 </div>

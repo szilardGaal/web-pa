@@ -8,5 +8,7 @@ public interface UserDao {
 
     User findByEmail(String email) throws SQLException;
 
-    void addUser(String userName, String email, boolean isAdmin) throws SQLException;
+    String findPasswordByEmail(String email) throws SQLException;
+
+    void addUser(String userName, String email, String password) throws SQLException;
 }
