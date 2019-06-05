@@ -29,7 +29,7 @@ public final class LoginServlet extends AbstractServlet {
 
             String email = req.getParameter("email");
             String password = req.getParameter("password");
-            String hashPassword = userDao.findPasswordByEmail(email);
+            String hashPassword = loginService.findPasswordByEmail(email);
             try {
                 if (pwh.validatePassword(password, hashPassword)) {
                     User user = loginService.loginUser(email);

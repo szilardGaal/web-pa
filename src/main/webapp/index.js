@@ -101,7 +101,7 @@ function onLoad() {
     const turnOnFilterButtonEl = document.getElementById('turn-on-filter-button');
     const submitOrderButtonEl = document.getElementById('submit-order');
     const cancelOrderButtonEl = document.getElementById('cancel-order');
-
+    loadCategories();
    
 
     loginButtonEl.addEventListener('click', onLoginButtonClicked);

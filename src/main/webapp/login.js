@@ -70,6 +70,7 @@ function onLoginResponse() {
         onOtherResponse(notLoggedInContentEl, this);
     }
 }
+
 function onLoginForm() {
     const loginFormEl = document.forms['login-form'];
 
@@ -86,7 +87,6 @@ function onLoginForm() {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', onLoginResponse);
     xhr.addEventListener('error', onNetworkError);
-    debugger;
     xhr.open('POST', 'login');
     xhr.send(params); 
 }

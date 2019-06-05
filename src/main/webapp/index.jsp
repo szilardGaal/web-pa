@@ -10,8 +10,8 @@
         <c:url value="/login.js" var="loginScriptUrl"/>
         <c:url value="/register.js" var="registerScriptUrl"/>
         <c:url value="/logout.js" var="logoutScriptUrl"/>
+        <c:url value="/categories.js" var="categoriesScriptUrl"/>
         <!--<c:url value="/shop.js" var="shopScriptUrl"/>
-        <c:url value="/shops.js" var="shopsScriptUrl"/>
         <c:url value="/coupon.js" var="couponScriptUrl"/>
         <c:url value="/coupons.js" var="couponsScriptUrl"/>
         <c:url value="/back-to-profile.js" var="backToProfileScriptUrl"/>
@@ -21,8 +21,8 @@
         <script src="${loginScriptUrl}"></script>
         <script src="${registerScriptUrl}"></script>
         <script src="${logoutScriptUrl}"></script>
+        <script src="${categoriesScriptUrl}"></script>
         <!--<script src="${shopScriptUrl}"></script>
-        <script src="${shopsScriptUrl}"></script>
         <script src="${couponScriptUrl}"></script>
         <script src="${couponsScriptUrl}"></script>
         <script src="${backToProfileScriptUrl}"></script>
@@ -110,7 +110,7 @@
             <hr>
             <br>
         </div>
-        <!-- adding onclilck events needed! -->
+        <!-- adding onclilck events needed! 
         <label><input type="checkbox" id="electric guitars" class="filter-hidden"><span class="filter-hidden"></span><a> electric guitars</a></label><br>
         <label><input type="checkbox" id="acoustic guitars" class="filter-hidden"><span class="filter-hidden"></span><a> acoustic guitars</a></label><br>
         <label><input type="checkbox" id="electric basses" class="filter-hidden"><span class="filter-hidden"></span><a> electric basses</a></label><br>
@@ -121,7 +121,7 @@
         <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> string sets</a></label><br>
         <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> cables</a></label><br>
         <br>
-        <button id="filter-submit-button" class="filter-hidden">filter</button>
+        <button id="filter-submit-button" class="filter-hidden">filter</button>-->
     </form>
     <p><strong>cart</strong></p>
         <table id="cart-table">
