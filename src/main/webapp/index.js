@@ -102,6 +102,7 @@ function onLoad() {
     const submitOrderButtonEl = document.getElementById('submit-order');
     const cancelOrderButtonEl = document.getElementById('cancel-order');
     loadCategories();
+    loadProducts(null);
    
 
     loginButtonEl.addEventListener('click', onLoginButtonClicked);
@@ -110,7 +111,6 @@ function onLoad() {
     turnOnFilterButtonEl.addEventListener('click', onTurnOnFilterButtonClicked);
     submitOrderButtonEl.addEventListener('click', onSubmitOrderButtonClicked);
     cancelOrderButtonEl.addEventListener('click', onCancelOrderButtonClicked);*/
-    debugger;
     user = JSON.parse(localStorage.getItem('user'));
     if (user != null) {
         loginUser(user);

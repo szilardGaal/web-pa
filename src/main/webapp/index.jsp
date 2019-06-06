@@ -11,8 +11,8 @@
         <c:url value="/register.js" var="registerScriptUrl"/>
         <c:url value="/logout.js" var="logoutScriptUrl"/>
         <c:url value="/categories.js" var="categoriesScriptUrl"/>
-        <!--<c:url value="/shop.js" var="shopScriptUrl"/>
-        <c:url value="/coupon.js" var="couponScriptUrl"/>
+        <c:url value="/products.js" var="productsScriptUrl"/>
+        <!--<c:url value="/coupon.js" var="couponScriptUrl"/>
         <c:url value="/coupons.js" var="couponsScriptUrl"/>
         <c:url value="/back-to-profile.js" var="backToProfileScriptUrl"/>
         -->
@@ -22,8 +22,8 @@
         <script src="${registerScriptUrl}"></script>
         <script src="${logoutScriptUrl}"></script>
         <script src="${categoriesScriptUrl}"></script>
-        <!--<script src="${shopScriptUrl}"></script>
-        <script src="${couponScriptUrl}"></script>
+        <script src="${productsScriptUrl}"></script>
+        <!--<script src="${couponScriptUrl}"></script>
         <script src="${couponsScriptUrl}"></script>
         <script src="${backToProfileScriptUrl}"></script>
         -->
@@ -66,7 +66,6 @@
                             <th>total ($)</th>
                             <th></th>
                         </tr>
-                       
                     </table>
                 </div>
             </div>
@@ -153,56 +152,6 @@
 </div>
 <div id="shop-content">
     <p>Selected category</p>
-    <div class="item-container">
-        <div class="item-image-container"><img src="img/fenderstrat.jpg"></div>
-        <div class="item-name"><p><strong>Fender Stratocaster</strong></p></div>
-        <div class="item-price-container">
-            <p><strong>700$</strong></p>
-        </div>
-        <div class="add-to-cart">
-            <form id="buy-item-form">
-                <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                </select>
-                <button>add to cart</button> <!-- data-product-id -->
-            </form>
-        </div>
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
-    <div class="item-container">
-        
-    </div>
 
 </div>
 

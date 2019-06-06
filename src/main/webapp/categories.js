@@ -5,7 +5,6 @@ function onSelectCategoryResponse() {
     } else {
         onOtherResponse(notLoggedInContentEl, this);
     }
-
 }
 
 function onCategoryClicked() {
@@ -17,8 +16,8 @@ function onCategoryClicked() {
     params.append('id', id);
     xhr.addEventListener('load', onSelectCategoryResponse);
     xhr.addEventListener('error', onNetworkError);
-    xhr.open('POST', 'categories');
-    xhr.send(params); 
+    xhr.open('GET', 'products');
+    xhr.send(params);
 }
 
 function createCategoriesList(categories) {
@@ -69,8 +68,4 @@ function loadCategories() {
     xhr.addEventListener('error', onNetworkError);
     xhr.open('GET', 'categories');
     xhr.send();
-}
-
-function getAllProductDatas() {
-
 }
