@@ -22,7 +22,6 @@ public class DatabaseProductsDao extends AbstractDao implements ProductsDao {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     products.add(fetchProduct(resultSet));
-
                 }
             }
         }
@@ -40,6 +39,51 @@ public class DatabaseProductsDao extends AbstractDao implements ProductsDao {
             }
         }
         return allProducts;
+    }
+    @Override
+    public List<Product> getProductsWithId(int[] ids) throws SQLException {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE";
+        for (int id : ids) {
+            sql += " type = ? OR";
+            if (id == (ids[ids.length-1])) {
+                sql = sql.substring(0, sql.length() - 3);
+            }
+        }
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (int i = 0; i < ids.length; i ++) {
+                statement.setInt(i + 1, ids[i]);
+            }
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(fetchProduct(resultSet));
+                }
+            }
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> getProductsWithoutId(int[] ids) throws SQLException {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE";
+        for (int id : ids) {
+            sql += " type != ? AND";
+            if (id == (ids[ids.length-1])) {
+                sql = sql.substring(0, sql.length() - 3);
+            }
+        }
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (int i = 0; i < ids.length; i ++) {
+                statement.setInt(i + 1, ids[i]);
+            }
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(fetchProduct(resultSet));
+                }
+            }
+        }
+        return products;
     }
 
     private Product fetchProduct(ResultSet resultSet) throws SQLException {

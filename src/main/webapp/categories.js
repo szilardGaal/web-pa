@@ -1,54 +1,50 @@
-function onSelectCategoryResponse() {
-    if (this.status === OK) {
-        products = JSON.parse(this.responseText);
-        displayProducts(products);
-    } else {
-        onOtherResponse(notLoggedInContentEl, this);
-    }
-}
-
 function onCategoryClicked() {
-    const id = this.firstChild.id.split('Id')[1];
-
-    const xhr = new XMLHttpRequest();
-    const params = new URLSearchParams();
-
-    params.append('id', id);
-    xhr.addEventListener('load', onSelectCategoryResponse);
-    xhr.addEventListener('error', onNetworkError);
-    xhr.open('GET', 'products');
-    xhr.send(params);
+    const id = this.id.split('Id')[1];
+    loadProducts(id);
 }
 
 function createCategoriesList(categories) {
     const categoriesFormEl = document.getElementById('filter-products');
+    categoriesFormEl.appendChild(document.createElement('br'));
 
     for (let i = 0; i < categories.ids.length; i++ ) {
         const linkEl = document.createElement('a');
+        linkEl.href = '#';
         linkEl.innerHTML = categories.names[i];
+        linkEl.setAttribute('id', 'categoriesId' + categories.ids[i]);
+        linkEl.addEventListener('click', onCategoryClicked);
 
         const spanEl = document.createElement('span');
         spanEl.setAttribute('class', 'filter-hidden');
 
         const inputEl = document.createElement('input');
         inputEl.setAttribute('type', 'checkbox');
-        inputEl.setAttribute('id', 'categoriesId' + categories.ids[i]);
-        inputEl.setAttribute('class', 'filter-hidden');
+        inputEl.setAttribute('id', 'categoryId' + categories.ids[i]);
+        inputEl.setAttribute('class', 'hidden');
 
         const labelEl = document.createElement('label');
         labelEl.appendChild(inputEl);
         labelEl.appendChild(spanEl);
-        labelEl.appendChild(linkEl);
-        labelEl.addEventListener('click', onCategoryClicked);
+        
 
         categoriesFormEl.appendChild(labelEl);
+        categoriesFormEl.appendChild(linkEl);
         categoriesFormEl.appendChild(document.createElement('br'));
     }
 
+    const linkToAllEl = document.createElement('a');
+    linkToAllEl.href = '#';
+    linkToAllEl.innerHTML = '<i>all</i>';
+    linkToAllEl.setAttribute('id', 'showAll');
+    linkToAllEl.addEventListener('click', onCategoryClicked);
+
     const filterButtonEl = document.createElement('button');
+    filterButtonEl.innerHTML = 'filter';
     filterButtonEl.setAttribute('id', 'filter-submit-button');
     filterButtonEl.setAttribute('class', 'filter-hidden');
+    filterButtonEl.addEventListener('click', onSubmitFilterButtonClicked);
 
+    categoriesFormEl.appendChild(linkToAllEl);
     categoriesFormEl.appendChild(document.createElement('br'));
     categoriesFormEl.appendChild(filterButtonEl);
 }

@@ -52,7 +52,7 @@ function showContents(ids) {
 }
 
 function showContent(content) {
-    content.style.display = 'block';
+    content.style.display = 'inline-block';
 }
 
 function hideContent(content) {
@@ -107,8 +107,8 @@ function onLoad() {
 
     loginButtonEl.addEventListener('click', onLoginButtonClicked);
     registerButtonEl.addEventListener('click', onRegisterButtonClicked);
-    /*searchButtonEl.addEventListener('click', onSearchButtonClicked);
     turnOnFilterButtonEl.addEventListener('click', onTurnOnFilterButtonClicked);
+    /*searchButtonEl.addEventListener('click', onSearchButtonClicked);
     submitOrderButtonEl.addEventListener('click', onSubmitOrderButtonClicked);
     cancelOrderButtonEl.addEventListener('click', onCancelOrderButtonClicked);*/
     user = JSON.parse(localStorage.getItem('user'));

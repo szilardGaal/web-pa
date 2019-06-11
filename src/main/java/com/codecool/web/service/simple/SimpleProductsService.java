@@ -21,4 +21,12 @@ public final class SimpleProductsService {
     public List<Product> getProductsByTypeId(int id) throws SQLException {
         return productsDao.getProductsByTypeId(id);
     }
+
+    public List<Product> getProductsWithId(int[] ids) throws SQLException {
+        return productsDao.getProductsWithId(ids);
+    }
+
+    public List<Product> getProductsWithoutId(int[] ids) throws SQLException {
+        return productsDao.getProductsWithoutId(ids);
+    }
 }

@@ -9,7 +9,6 @@ function createProductsPage(products) {
     for (let i = 0; i < products.length; i ++) {
         const itemContainerDiv = document.createElement('div');
         itemContainerDiv.setAttribute('class', 'item-container');
-//  <div class="item-image-container"><img src="img/fenderstrat.jpg"></div>
         const imageContainerDiv = document.createElement('div');
         imageContainerDiv.setAttribute('class', 'item-image-container');
         const imgElement = document.createElement('img');

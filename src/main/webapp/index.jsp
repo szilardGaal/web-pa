@@ -12,8 +12,8 @@
         <c:url value="/logout.js" var="logoutScriptUrl"/>
         <c:url value="/categories.js" var="categoriesScriptUrl"/>
         <c:url value="/products.js" var="productsScriptUrl"/>
-        <!--<c:url value="/coupon.js" var="couponScriptUrl"/>
-        <c:url value="/coupons.js" var="couponsScriptUrl"/>
+        <c:url value="/filter.js" var="filterScriptUrl"/>
+        <!--<c:url value="/coupons.js" var="couponsScriptUrl"/>
         <c:url value="/back-to-profile.js" var="backToProfileScriptUrl"/>
         -->
         <link rel="stylesheet" type="text/css" href="${styleUrl}">
@@ -23,8 +23,8 @@
         <script src="${logoutScriptUrl}"></script>
         <script src="${categoriesScriptUrl}"></script>
         <script src="${productsScriptUrl}"></script>
-        <!--<script src="${couponScriptUrl}"></script>
-        <script src="${couponsScriptUrl}"></script>
+        <script src="${filterScriptUrl}"></script>
+        <!--<script src="${couponsScriptUrl}"></script>
         <script src="${backToProfileScriptUrl}"></script>
         -->
         <title>App</title>
@@ -104,8 +104,8 @@
     <p><strong>categories</strong><button id="turn-on-filter-button" class="minimal-button">filter</button></p>
     <form id="filter-products">
         <div id="filter-options" class="filter-hidden">
-            <label><input type="checkbox" id="filter-include"><span class="filter-hidden"></span> include <br></label>
-            <label><input type="checkbox" id="filter-exclude"><span class="filter-hidden"></span> exclude <br></label>
+            <label><input type="checkbox" id="filter-select1" value="include" onclick="selectOnlyThis(this.id)" checked><span class="filter-hidden"></span> include <br></label>
+            <label><input type="checkbox" id="filter-select2" value="exclude" onclick="selectOnlyThis(this.id)"><span class="filter-hidden"></span> exclude <br></label>
             <hr>
             <br>
         </div>
