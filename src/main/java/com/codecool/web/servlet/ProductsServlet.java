@@ -17,6 +17,23 @@ import java.util.List;
 public class ProductsServlet extends AbstractServlet {
 
     @Override
+    public void doGet (HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try (Connection connection = getConnection(req.getServletContext())) {
+            ProductsDao productsDao = new DatabaseProductsDao(connection);
+            SimpleProductsService productsService = new SimpleProductsService(productsDao);
+
+            int productId = Integer.parseInt(req.getParameter("id"));
+
+            Product product = productsService.getProductById(productId);
+
+            sendMessage(resp, HttpServletResponse.SC_OK, product);
+
+        } catch (SQLException sqlEx) {
+            handleSqlError(resp, sqlEx);
+        }
+    }
+
+    @Override
     public void doPost (HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try (Connection connection = getConnection(req.getServletContext())) {
             ProductsDao productsDao = new DatabaseProductsDao(connection);

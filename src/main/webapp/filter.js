@@ -1,10 +1,13 @@
-function onLoadFilteredProductsResponse() {
-    if (this.status === OK) {
-        products = JSON.parse(this.responseText);
-        createProductsPage(products);
-    } else {
-        onOtherResponse(shopContentDivEl, this);
-    }
+function searchByName() {
+    const searchFieldVal = document.getElementById('search-field').value;
+    const params = new URLSearchParams;
+    params.append('name', searchFieldVal);
+
+    const xhr = new XMLHttpRequest;
+    xhr.addEventListener('load', onLoadProductsResponse);
+    xhr.addEventListener('error', onNetworkError);
+    xhr.open('GET', 'filter?' + params);
+    xhr.send();
 }
 
 function loadFilteredProducts(ids, includeOrExclude) {
@@ -13,7 +16,7 @@ function loadFilteredProducts(ids, includeOrExclude) {
     params.append('ids', ids);
 
     const xhr = new XMLHttpRequest;
-    xhr.addEventListener('load', onLoadFilteredProductsResponse);
+    xhr.addEventListener('load', onLoadProductsResponse);
     xhr.addEventListener('error', onNetworkError);
     xhr.open('POST', 'filter');
     xhr.send(params);

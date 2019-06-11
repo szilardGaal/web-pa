@@ -95,27 +95,13 @@ function onLoad() {
     cartTableEl = document.getElementById('cart-table');
     shopContentDivEl = document.getElementById('shop-content');
 
-    const loginButtonEl = document.getElementById('login-button');
-    const registerButtonEl = document.getElementById('register-button');
-    const searchButtonEl = document.getElementById('search-button');
-    const turnOnFilterButtonEl = document.getElementById('turn-on-filter-button');
-    const submitOrderButtonEl = document.getElementById('submit-order');
-    const cancelOrderButtonEl = document.getElementById('cancel-order');
     loadCategories();
     loadProducts(null);
    
-
-    loginButtonEl.addEventListener('click', onLoginButtonClicked);
-    registerButtonEl.addEventListener('click', onRegisterButtonClicked);
-    turnOnFilterButtonEl.addEventListener('click', onTurnOnFilterButtonClicked);
-    /*searchButtonEl.addEventListener('click', onSearchButtonClicked);
-    submitOrderButtonEl.addEventListener('click', onSubmitOrderButtonClicked);
-    cancelOrderButtonEl.addEventListener('click', onCancelOrderButtonClicked);*/
     user = JSON.parse(localStorage.getItem('user'));
     if (user != null) {
         loginUser(user);
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', onLoad);

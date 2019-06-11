@@ -1,13 +1,11 @@
-
-
 function createProductsPage(products) {
 
     const shopContentDiv = document.getElementById('shop-content');
     removeAllChildren(shopContentDiv);
-    //shopContentDiv.insertBefore(newElement, shopContendDiv.firstchild); !!!
     
     for (let i = 0; i < products.length; i ++) {
         const itemContainerDiv = document.createElement('div');
+        itemContainerDiv.setAttribute('id', 'divItemId' + products[i].id);
         itemContainerDiv.setAttribute('class', 'item-container');
         const imageContainerDiv = document.createElement('div');
         imageContainerDiv.setAttribute('class', 'item-image-container');
@@ -36,6 +34,7 @@ function createProductsPage(products) {
         const addToCartForm = document.createElement('form');
         addToCartForm.setAttribute('class', 'buy-item-form');
         const selectEl = document.createElement('select');
+        selectEl.setAttribute('id', 'select' + products[i].id);
         for (let k = 1; k < 11; k++) {
             const optionEl = document.createElement('option');
             optionEl.innerHTML = k;
@@ -43,6 +42,7 @@ function createProductsPage(products) {
         }
         const addToCartButton = document.createElement('button');
         addToCartButton.setAttribute('id', 'itemId' + products[i].id);
+        addToCartButton.addEventListener('click', onAddToCartClicked);
         addToCartButton.innerHTML = 'add to cart';
         addToCartForm.appendChild(selectEl);
         addToCartForm.appendChild(addToCartButton);

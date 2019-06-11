@@ -13,9 +13,9 @@
         <c:url value="/categories.js" var="categoriesScriptUrl"/>
         <c:url value="/products.js" var="productsScriptUrl"/>
         <c:url value="/filter.js" var="filterScriptUrl"/>
-        <!--<c:url value="/coupons.js" var="couponsScriptUrl"/>
-        <c:url value="/back-to-profile.js" var="backToProfileScriptUrl"/>
-        -->
+        <c:url value="/cart.js" var="cartScriptUrl"/>
+        <c:url value="/order.js" var="orderScriptUrl"/>
+        
         <link rel="stylesheet" type="text/css" href="${styleUrl}">
         <script src="${indexScriptUrl}"></script>
         <script src="${loginScriptUrl}"></script>
@@ -24,9 +24,9 @@
         <script src="${categoriesScriptUrl}"></script>
         <script src="${productsScriptUrl}"></script>
         <script src="${filterScriptUrl}"></script>
-        <!--<script src="${couponsScriptUrl}"></script>
-        <script src="${backToProfileScriptUrl}"></script>
-        -->
+        <script src="${cartScriptUrl}"></script>
+        <script src="${orderScriptUrl}"></script>
+        
         <title>App</title>
     </head>
 <body>
@@ -37,8 +37,8 @@
     <div id="profile-content">
         <div id="not-logged-in-content">
             <p><i>you are not logged in.</i></p>
-            <button id="register-button" class="minimal-button">register</button>
-            <button id="login-button" class="minimal-button">login</button>
+            <button id="register-button" class="minimal-button" onclick="onRegisterButtonClicked()">register</button>
+            <button id="login-button" class="minimal-button" onclick="onLoginButtonClicked()">login</button>
         </div>
         <div id="logged-in-content" style="display: none;">
             <p id="user-name-field"></p>
@@ -97,11 +97,11 @@
     </div>
 </div>
 <div id="left-bar">
-    <form id="search-field">
-        <input type="text" placeholder="search by name">
-        <button id="search-button" class="minimal-button">search</button> 
+    <form id="search-field-form" onsubmit="searchByName(); return false;">
+        <input id="search-field" type="text" placeholder="search by name">
+        <button id="search-button" type="submit" class="minimal-button">search</button> 
     </form>
-    <p><strong>categories</strong><button id="turn-on-filter-button" class="minimal-button">filter</button></p>
+    <p><strong>categories</strong><button id="turn-on-filter-button" class="minimal-button" onclick="onTurnOnFilterButtonClicked()">filter</button></p>
     <form id="filter-products">
         <div id="filter-options" class="filter-hidden">
             <label><input type="checkbox" id="filter-select1" value="include" onclick="selectOnlyThis(this.id)" checked><span class="filter-hidden"></span> include <br></label>
@@ -109,18 +109,6 @@
             <hr>
             <br>
         </div>
-        <!-- adding onclilck events needed! 
-        <label><input type="checkbox" id="electric guitars" class="filter-hidden"><span class="filter-hidden"></span><a> electric guitars</a></label><br>
-        <label><input type="checkbox" id="acoustic guitars" class="filter-hidden"><span class="filter-hidden"></span><a> acoustic guitars</a></label><br>
-        <label><input type="checkbox" id="electric basses" class="filter-hidden"><span class="filter-hidden"></span><a> electric basses</a></label><br>
-        <label><input type="checkbox" id="acoustic basses" class="filter-hidden"><span class="filter-hidden"></span><a> acoustic basses</a></label><br>
-        <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> valve amplifiers</a></label><br>
-        <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> tube amplifiers</a></label><br>
-        <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> hybrid amplifiers</a></label><br>
-        <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> string sets</a></label><br>
-        <label><input type="checkbox" id="filter-exclude" class="filter-hidden"><span class="filter-hidden"></span><a> cables</a></label><br>
-        <br>
-        <button id="filter-submit-button" class="filter-hidden">filter</button>-->
     </form>
     <p><strong>cart</strong></p>
         <table id="cart-table">
@@ -128,30 +116,15 @@
                 <th>product</th>
                 <th>pc</th>
                 <th>$/pc</th>
-                <th>total</th>
+                <th>subtotal</th>
                 <th></th>
             </tr>
-            <tr id="orderId">
-                <td>Fender Stratocaster</td>
-                <td>3</td>
-                <td>700</td>
-                <td>2100</td>
-                <td><button class="minimal-button">X</button></td>
-            </tr>
-            <tr id="orderId">
-                <td>Gibson SG</td>
-                <td>1</td>
-                <td>850</td>
-                <td>850</td>
-                <td><button class="minimal-button">X</button></td>
-            </tr>
         </table>
-        
-        <button id="submit-order">submit order</button><br>
-        <button id="cancel-order" class="minimal-button">cancel</button>
+        total: <strong id="cart-total"></strong>
+        <button id="submit-order" onclick="onSubmitOrder()">submit order</button><br>
+        <button id="cancel-cart" class="minimal-button" onclick="onCancelCart()">cancel</button>
 </div>
 <div id="shop-content">
-    <p>Selected category</p>
 
 </div>
 

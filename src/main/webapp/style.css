@@ -66,11 +66,11 @@ a {
     font-weight: 400;
 }
 
-#search-field {
+#search-field-form {
     margin: 4% 0;
 }
 
-#search-field input {
+#search-field-form input {
     width: 70%;
     background: none;
     border: none;

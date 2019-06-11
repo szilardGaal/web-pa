@@ -29,4 +29,12 @@ public final class SimpleProductsService {
     public List<Product> getProductsWithoutId(int[] ids) throws SQLException {
         return productsDao.getProductsWithoutId(ids);
     }
+
+    public List<Product> searchProducts(String regex) throws SQLException {
+        return productsDao.searchProducts(regex);
+    }
+
+    public Product getProductById(int id) throws SQLException {
+        return productsDao.getProductById(id);
+    }
 }

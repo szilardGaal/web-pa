@@ -18,6 +18,23 @@ import java.util.List;
 public class FilterServlet extends AbstractServlet {
 
     @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try (Connection connection = getConnection(req.getServletContext())) {
+            ProductsDao productsDao = new DatabaseProductsDao(connection);
+            SimpleProductsService productsService = new SimpleProductsService(productsDao);
+
+            String name = req.getParameter("name");
+            String regex = "%" + name + "%";
+            List<Product> productList = productsService.searchProducts(regex);
+
+            sendMessage(resp, HttpServletResponse.SC_OK, productList);
+
+        } catch (SQLException sqlEx) {
+            handleSqlError(resp, sqlEx);
+        }
+    }
+
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try (Connection connection = getConnection(req.getServletContext())) {
             ProductsDao productsDao = new DatabaseProductsDao(connection);

@@ -14,4 +14,8 @@ public interface ProductsDao {
     List<Product> getProductsWithId(int[] ids) throws SQLException;
 
     List<Product> getProductsWithoutId(int[] ids) throws SQLException;
+
+    List<Product> searchProducts(String regex) throws SQLException;
+
+    Product getProductById(int id) throws SQLException;
 }

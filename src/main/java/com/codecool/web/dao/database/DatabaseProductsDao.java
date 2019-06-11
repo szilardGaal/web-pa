@@ -86,6 +86,34 @@ public class DatabaseProductsDao extends AbstractDao implements ProductsDao {
         return products;
     }
 
+    public List<Product> searchProducts(String regex) throws SQLException {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE name LIKE ? OR manufacturer LIKE ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, regex);
+            statement.setString(2, regex);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    products.add(fetchProduct(resultSet));
+                }
+            }
+        }
+        return products;
+    }
+
+    public Product getProductById(int id) throws SQLException {
+        String sql = "SELECT * FROM products WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return fetchProduct(resultSet);
+                }
+            }
+        }
+        return null;
+    }
+
     private Product fetchProduct(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");
