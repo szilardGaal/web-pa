@@ -40,6 +40,7 @@ public class DatabaseProductsDao extends AbstractDao implements ProductsDao {
         }
         return allProducts;
     }
+
     @Override
     public List<Product> getProductsWithId(int[] ids) throws SQLException {
         List<Product> products = new ArrayList<>();

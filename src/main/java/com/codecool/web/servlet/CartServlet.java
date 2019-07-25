@@ -11,26 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-@WebServlet("/products")
-public class ProductsServlet extends AbstractServlet {
+@WebServlet("/cart")
+public class CartServlet extends AbstractServlet {
 
     @Override
-    public void doPost (HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doGet (HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try (Connection connection = getConnection(req.getServletContext())) {
             ProductsDao productsDao = new DatabaseProductsDao(connection);
             SimpleProductsService productsService = new SimpleProductsService(productsDao);
 
-            try {
-                int id = Integer.parseInt(req.getParameter("id"));
-                List<Product> productList = productsService.getProductsByTypeId(id);
-                sendMessage(resp, HttpServletResponse.SC_OK, productList);
+            int productId = Integer.parseInt(req.getParameter("id"));
 
-            } catch (NumberFormatException ex) {
-                List<Product> allProductsList = productsService.getAllProducts();
-                sendMessage(resp, HttpServletResponse.SC_OK, allProductsList);
-            }
+            Product product = productsService.getProductById(productId);
+
+            sendMessage(resp, HttpServletResponse.SC_OK, product);
 
         } catch (SQLException sqlEx) {
             handleSqlError(resp, sqlEx);

@@ -29,7 +29,6 @@ function onSubmitFilterButtonClicked() {
     for (let i = 0; i < selectedCategories.length; i ++) {
         ids.push(selectedCategories[i].id.split('Id')[1]);
     }
-    debugger;
     loadFilteredProducts(ids, includeOrExclude);
 }
 

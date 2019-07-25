@@ -10,4 +10,5 @@ public interface LoginService {
     User loginUser(String email) throws SQLException, ServiceException;
 
     String findPasswordByEmail(String email) throws SQLException, ServiceException;
+
 }

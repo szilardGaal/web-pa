@@ -33,6 +33,7 @@ function createProductsPage(products) {
         addToCartFormDiv.setAttribute('class', 'add-to-cart');
         const addToCartForm = document.createElement('form');
         addToCartForm.setAttribute('class', 'buy-item-form');
+        addToCartForm.setAttribute('onsubmit', 'return false;');
         const selectEl = document.createElement('select');
         selectEl.setAttribute('id', 'select' + products[i].id);
         for (let k = 1; k < 11; k++) {

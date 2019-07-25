@@ -64,6 +64,6 @@ function onAddToCartClicked() {
     const xhr = new XMLHttpRequest;
     xhr.addEventListener('load', onAddToCartResponse);
     xhr.addEventListener('error', onNetworkError);
-    xhr.open('GET', 'products?' + params);
+    xhr.open('GET', 'cart?' + params);
     xhr.send();
 }

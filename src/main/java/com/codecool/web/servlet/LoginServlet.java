@@ -7,6 +7,7 @@ import com.codecool.web.service.LoginService;
 import com.codecool.web.service.exception.ServiceException;
 import com.codecool.web.service.simple.PasswordHashService;
 import com.codecool.web.service.simple.SimpleLoginService;
+import com.codecool.web.service.simple.UserService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;

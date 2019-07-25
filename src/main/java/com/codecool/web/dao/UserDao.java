@@ -11,4 +11,12 @@ public interface UserDao {
     String findPasswordByEmail(String email) throws SQLException;
 
     void addUser(String userName, String email, String password) throws SQLException;
+
+    void createOrder(int userId, int[] productIds, int[] pcs) throws SQLException;
+
+    User getUserById(int userId) throws SQLException;
+
+    void updateUserName(int userId, String newName) throws SQLException;
+
+    void updateUserPassword(int userId, String newPassword) throws SQLException;
 }

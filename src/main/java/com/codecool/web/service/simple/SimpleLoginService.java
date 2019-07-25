@@ -7,6 +7,8 @@ import com.codecool.web.service.exception.ServiceException;
 
 import javax.sql.rowset.serial.SerialException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SimpleLoginService implements LoginService {
 
@@ -19,7 +21,8 @@ public final class SimpleLoginService implements LoginService {
     @Override
     public User loginUser(String email) throws SQLException, ServiceException {
         try {
-            return userDao.findByEmail(email);
+            User user = userDao.findByEmail(email);
+            return user;
         } catch (IllegalArgumentException ex) {
             throw new ServiceException(ex.getMessage());
         }

@@ -15,6 +15,7 @@
         <c:url value="/filter.js" var="filterScriptUrl"/>
         <c:url value="/cart.js" var="cartScriptUrl"/>
         <c:url value="/order.js" var="orderScriptUrl"/>
+        <c:url value="/profile.js" var="profileScriptUrl"/>
         
         <link rel="stylesheet" type="text/css" href="${styleUrl}">
         <script src="${indexScriptUrl}"></script>
@@ -26,6 +27,7 @@
         <script src="${filterScriptUrl}"></script>
         <script src="${cartScriptUrl}"></script>
         <script src="${orderScriptUrl}"></script>
+        <script src="${profileScriptUrl}"></script>
         
         <title>App</title>
     </head>
@@ -45,14 +47,14 @@
             <div class="dropdown">
                 <button id="my-profile" class="minimal-button">my profile</button>
                 <div class="dropdown-content">
-                    <form id="update-data-form">
+                    <form id="update-data-form" onsubmit="return false;">
                         <input type="text" id="change-name"><br>
                         <input type="email" id="change-email" readonly><br>
                         <input type="password" id="change-password"><br>
                         <input type="password" id="change-password-confirm"><br>
                         <br>
-                        <button id="cancel-change" class="minimal-button">cancel</button>
-                        <button id="submit-change-button" class="minimal-button">change</button>
+                        <button type="reset" id="cancel-change" class="minimal-button">cancel</button>
+                        <button id="submit-change-button" class="minimal-button" onclick="onChangeDataClicked()">change</button>
                     </form>
                 </div>
             </div>

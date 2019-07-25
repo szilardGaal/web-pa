@@ -56,6 +56,68 @@ public final class DatabaseUserDao extends AbstractDao implements UserDao {
         }
     }
 
+    @Override
+    public void createOrder(int userId, int[] productIds, int[] pcs) throws SQLException {
+        int orderId = createBlankOrder(userId);
+
+        String sql = "INSERT INTO order_rows (orderId, productId, quantity) VALUES ";
+        for (int i = 0; i < productIds.length; i ++) {
+            if (i < productIds.length-1) {
+                sql += "(?, ?, ?), ";
+            } else {
+                sql += "(?, ?, ?);";
+            }
+        }
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            int indexCounter = 1;
+            for (int i = 0; i < pcs.length; i ++) {
+                statement.setInt(indexCounter, orderId);
+                indexCounter += 1;
+                statement.setInt(indexCounter, productIds[i]);
+                indexCounter += 1;
+                statement.setInt(indexCounter, pcs[i]);
+                indexCounter += 1;
+            }
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public User getUserById(int userId) throws SQLException {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    User newUser = fetchUser(resultSet);
+                    getUserOrders(newUser);
+                    return newUser;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void updateUserName(int userId, String newName) throws SQLException {
+        String sql = "UPDATE users SET username = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, newName);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void updateUserPassword(int userId, String newPassword) throws SQLException {
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, newPassword);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        }
+    }
+
     private User fetchUser(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("userName");
@@ -77,5 +139,18 @@ public final class DatabaseUserDao extends AbstractDao implements UserDao {
                 }
             }
         }
+    }
+
+    private int createBlankOrder(int userId) throws SQLException {
+        String sql = "INSERT INTO orders (userId) VALUES (?) RETURNING id;";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("id");
+                }
+            }
+        }
+        return 0;
     }
 }
